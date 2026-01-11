@@ -69187,7 +69187,7 @@ k=t.w
 n=B.d.bL(A.b0(n,B.ad,k).w.a.a)
 j=p.c
 j.toString
-i=A.G(["playerId",m,"playerName",a,"version",l+".0.2.3_"+n+"."+B.d.bL(A.b0(j,B.ad,k).w.a.b),"gid",a+"_"+c],t.N,t.z)
+i=A.G(["playerId",m,"playerName",a,"version",l+".0.2.4_"+n+"."+B.d.bL(A.b0(j,B.ad,k).w.a.b),"gid",a+"_"+c],t.N,t.z)
 o=o.$1$0(t.l)
 k=p.r
 k.toString
@@ -69792,7 +69792,7 @@ return A.V(s,B.n2,B.f,B.hd,s,s,s,s,s,s,s,s,s,s)},
 $S:90}
 A.aUu.prototype={
 $2(a,b){var s=null,r=b.d
-return new A.aC(new A.aq(0,0,0,A.bFD(r)),A.S(this.a.r+"0.2.3."+B.d.bL(b.b)+"."+B.d.bL(r),s,1,s,s,s,A.bFE(a,r),B.ab,s),s)},
+return new A.aC(new A.aq(0,0,0,A.bFD(r)),A.S(this.a.r+"0.2.4."+B.d.bL(b.b)+"."+B.d.bL(r),s,1,s,s,s,A.bFE(a,r),B.ab,s),s)},
 $S:659}
 A.KP.prototype={
 a8(){return new A.a9h(A.a([],t.tD))}}
@@ -71285,7 +71285,7 @@ a4=a4==null?null:J.AV(a4,t.N)
 d=a4==null?null:a4.dn(a4)
 t.H_.a(d)
 a5=d==null?A.a([],t.s):d
-s=!(a5.length===0||c.length===0||c!=="0.2.3")?5:6
+s=!(a5.length===0||c.length===0||c!=="0.2.4")?5:6
 break
 case 5:d=n.c
 d.toString

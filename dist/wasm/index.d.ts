@@ -9,11 +9,6 @@
 type ReadableStreamType = "bytes";
 import type { Signer } from '../signer/index.js';
 
-export interface QueryOptions {
-    blockHash?: string | undefined;
-    owner?: AccountOwner | undefined;
-}
-
 export interface TransferParams {
     donor?: AccountOwner | undefined;
     amount: number;
@@ -22,6 +17,11 @@ export interface TransferParams {
 
 export interface AddOwnerOptions {
     weight?: number;
+}
+
+export interface QueryOptions {
+    blockHash?: string | undefined;
+    owner?: AccountOwner | undefined;
 }
 
 export interface Options extends ChainListenerConfig {
@@ -163,15 +163,9 @@ export type BlanketMessagePolicy = "Accept" | "Reject" | "Ignore";
 export type ApplicationId = string;
 
 /**
- * A unique identifier for an application.
+ * An account owner.
  */
-export type GenericApplicationId = "System" | { User: ApplicationId };
-
-/**
- * The unique identifier (UID) of a chain. This is currently computed as the hash value
- * of a [`ChainDescription`].
- */
-export type ChainId = CryptoHash;
+export type AccountOwner = string;
 
 /**
  * A system account.
@@ -188,9 +182,15 @@ export interface Account {
 }
 
 /**
- * An account owner.
+ * The unique identifier (UID) of a chain. This is currently computed as the hash value
+ * of a [`ChainDescription`].
  */
-export type AccountOwner = string;
+export type ChainId = CryptoHash;
+
+/**
+ * A unique identifier for an application.
+ */
+export type GenericApplicationId = "System" | { User: ApplicationId };
 
 /**
  * A Keccak256 value.
@@ -223,28 +223,19 @@ export class Chain {
   free(): void;
   [Symbol.dispose](): void;
   /**
-   * Sets a callback to be called when a notification is received
-   * from the network.
+   * Retrieves an application for querying.
    *
    * # Errors
-   * If we fail to subscribe to the notification stream.
-   *
-   * # Panics
-   * If the handler function fails.
+   * If the application ID is invalid.
    */
-  onNotification(handler: Function): void;
+  application(id: string): Promise<Application>;
   /**
-   * Transfers funds from one account to another.
-   *
-   * `options` should be an options object of the form `{ donor,
-   * recipient, amount }`; omitting `donor` will cause the funds to
-   * come from the chain balance.
+   * Gets the version information of the validators of the current network.
    *
    * # Errors
-   * - if the options object is of the wrong form
-   * - if the transfer fails
+   * If a validator is unreachable.
    */
-  transfer(params: TransferParams): Promise<void>;
+  validatorVersionInfo(): Promise<any>;
   /**
    * Gets the balance of the default chain.
    *
@@ -260,6 +251,18 @@ export class Chain {
    */
   identity(): Promise<AccountOwner>;
   /**
+   * Transfers funds from one account to another.
+   *
+   * `options` should be an options object of the form `{ donor,
+   * recipient, amount }`; omitting `donor` will cause the funds to
+   * come from the chain balance.
+   *
+   * # Errors
+   * - if the options object is of the wrong form
+   * - if the transfer fails
+   */
+  transfer(params: TransferParams): Promise<void>;
+  /**
    * Adds a new owner to the default chain.
    *
    * # Errors
@@ -268,19 +271,16 @@ export class Chain {
    */
   addOwner(owner: AccountOwner, options?: AddOwnerOptions | null): Promise<void>;
   /**
-   * Gets the version information of the validators of the current network.
+   * Sets a callback to be called when a notification is received
+   * from the network.
    *
    * # Errors
-   * If a validator is unreachable.
-   */
-  validatorVersionInfo(): Promise<any>;
-  /**
-   * Retrieves an application for querying.
+   * If we fail to subscribe to the notification stream.
    *
-   * # Errors
-   * If the application ID is invalid.
+   * # Panics
+   * If the handler function fails.
    */
-  application(id: string): Promise<Application>;
+  onNotification(handler: Function): void;
 }
 
 export class Client {
@@ -307,14 +307,6 @@ export class Client {
 export class Faucet {
   free(): void;
   [Symbol.dispose](): void;
-  constructor(url: string);
-  /**
-   * Creates a new wallet from the faucet.
-   *
-   * # Errors
-   * If we couldn't retrieve the genesis config from the faucet.
-   */
-  createWallet(): Promise<Wallet>;
   /**
    * Claims a new chain from the faucet, with a new keypair and some tokens.
    *
@@ -327,26 +319,34 @@ export class Faucet {
    * If an error occurs in the chain listener task.
    */
   claimChain(wallet: Wallet, owner: AccountOwner): Promise<string>;
+  /**
+   * Creates a new wallet from the faucet.
+   *
+   * # Errors
+   * If we couldn't retrieve the genesis config from the faucet.
+   */
+  createWallet(): Promise<Wallet>;
+  constructor(url: string);
 }
 
 export class IntoUnderlyingByteSource {
   private constructor();
   free(): void;
   [Symbol.dispose](): void;
-  start(controller: ReadableByteStreamController): void;
   pull(controller: ReadableByteStreamController): Promise<any>;
+  start(controller: ReadableByteStreamController): void;
   cancel(): void;
-  readonly type: ReadableStreamType;
   readonly autoAllocateChunkSize: number;
+  readonly type: ReadableStreamType;
 }
 
 export class IntoUnderlyingSink {
   private constructor();
   free(): void;
   [Symbol.dispose](): void;
-  write(chunk: any): Promise<any>;
-  close(): Promise<any>;
   abort(reason: any): Promise<any>;
+  close(): Promise<any>;
+  write(chunk: any): Promise<any>;
 }
 
 export class IntoUnderlyingSource {
@@ -388,50 +388,50 @@ export function main(): void;
 export type InitInput = RequestInfo | URL | Response | BufferSource | WebAssembly.Module;
 
 export interface InitOutput {
-  readonly __wbg_application_free: (a: number, b: number) => void;
-  readonly application_query: (a: number, b: number, c: number, d: number) => any;
-  readonly __wbg_chain_free: (a: number, b: number) => void;
-  readonly chain_onNotification: (a: number, b: any) => [number, number];
-  readonly chain_transfer: (a: number, b: any) => any;
-  readonly chain_balance: (a: number) => any;
-  readonly chain_identity: (a: number) => any;
-  readonly chain_addOwner: (a: number, b: any, c: number) => any;
-  readonly chain_validatorVersionInfo: (a: number) => any;
-  readonly chain_application: (a: number, b: number, c: number) => any;
-  readonly __wbg_faucet_free: (a: number, b: number) => void;
-  readonly faucet_new: (a: number, b: number) => number;
-  readonly faucet_createWallet: (a: number) => any;
-  readonly faucet_claimChain: (a: number, b: number, c: any) => any;
+  readonly memory: WebAssembly.Memory;
   readonly __wbg_client_free: (a: number, b: number) => void;
-  readonly client_new: (a: number, b: any, c: number) => any;
+  readonly __wbg_faucet_free: (a: number, b: number) => void;
   readonly client_chain: (a: number, b: any) => any;
+  readonly client_new: (a: number, b: any, c: number) => any;
+  readonly faucet_claimChain: (a: number, b: number, c: any) => any;
+  readonly faucet_createWallet: (a: number) => any;
+  readonly faucet_new: (a: number, b: number) => number;
   readonly main: () => void;
   readonly __wbg_wallet_free: (a: number, b: number) => void;
   readonly wallet_setOwner: (a: number, b: any, c: any) => any;
+  readonly __wbg_application_free: (a: number, b: number) => void;
+  readonly __wbg_chain_free: (a: number, b: number) => void;
+  readonly application_query: (a: number, b: number, c: number, d: number) => any;
+  readonly chain_addOwner: (a: number, b: any, c: number) => any;
+  readonly chain_application: (a: number, b: number, c: number) => any;
+  readonly chain_balance: (a: number) => any;
+  readonly chain_identity: (a: number) => any;
+  readonly chain_onNotification: (a: number, b: any) => [number, number];
+  readonly chain_transfer: (a: number, b: any) => any;
+  readonly chain_validatorVersionInfo: (a: number) => any;
   readonly __web_thread_worker_entry_point: (a: any, b: any) => any;
-  readonly __wbg_intounderlyingsink_free: (a: number, b: number) => void;
-  readonly intounderlyingsink_write: (a: number, b: any) => any;
-  readonly intounderlyingsink_close: (a: number) => any;
-  readonly intounderlyingsink_abort: (a: number, b: any) => any;
   readonly __wbg_intounderlyingbytesource_free: (a: number, b: number) => void;
-  readonly intounderlyingbytesource_type: (a: number) => number;
   readonly intounderlyingbytesource_autoAllocateChunkSize: (a: number) => number;
-  readonly intounderlyingbytesource_start: (a: number, b: any) => void;
-  readonly intounderlyingbytesource_pull: (a: number, b: any) => any;
   readonly intounderlyingbytesource_cancel: (a: number) => void;
+  readonly intounderlyingbytesource_pull: (a: number, b: any) => any;
+  readonly intounderlyingbytesource_start: (a: number, b: any) => void;
+  readonly intounderlyingbytesource_type: (a: number) => number;
+  readonly __wbg_intounderlyingsink_free: (a: number, b: number) => void;
   readonly __wbg_intounderlyingsource_free: (a: number, b: number) => void;
-  readonly intounderlyingsource_pull: (a: number, b: any) => any;
+  readonly intounderlyingsink_abort: (a: number, b: any) => any;
+  readonly intounderlyingsink_close: (a: number) => any;
+  readonly intounderlyingsink_write: (a: number, b: any) => any;
   readonly intounderlyingsource_cancel: (a: number) => void;
+  readonly intounderlyingsource_pull: (a: number, b: any) => any;
   readonly __wbg_trap_free: (a: number, b: number) => void;
   readonly trap___wbg_wasmer_trap: () => void;
-  readonly wasm_bindgen__convert__closures_____invoke__h835dbfb12a2942ad: (a: number, b: number, c: any) => void;
-  readonly wasm_bindgen__closure__destroy__h7ffc7dec5106d6f2: (a: number, b: number) => void;
-  readonly wasm_bindgen__convert__closures_____invoke__h1b6a95656d4ace8f: (a: number, b: number) => [number, number];
-  readonly wasm_bindgen__closure__destroy__h2001c712b752a115: (a: number, b: number) => void;
-  readonly wasm_bindgen__convert__closures_____invoke__h9864f29b0dc7f3cb: (a: number, b: number) => void;
-  readonly wasm_bindgen__closure__destroy__h3a9e759d118bd1d6: (a: number, b: number) => void;
-  readonly wasm_bindgen__convert__closures_____invoke__h78f3940c5bcb237f: (a: number, b: number, c: any, d: any) => void;
-  readonly memory: WebAssembly.Memory;
+  readonly wasm_bindgen_72c29d3dda6aeff4___convert__closures_____invoke______: (a: number, b: number) => void;
+  readonly wasm_bindgen_72c29d3dda6aeff4___closure__destroy___dyn_core_f706892e66d7b415___ops__function__FnMut_____Output_______: (a: number, b: number) => void;
+  readonly wasm_bindgen_72c29d3dda6aeff4___convert__closures_____invoke___wasm_bindgen_72c29d3dda6aeff4___JsValue_____: (a: number, b: number, c: any) => void;
+  readonly wasm_bindgen_72c29d3dda6aeff4___closure__destroy___dyn_core_f706892e66d7b415___ops__function__FnMut__wasm_bindgen_72c29d3dda6aeff4___JsValue____Output_______: (a: number, b: number) => void;
+  readonly wasm_bindgen_72c29d3dda6aeff4___convert__closures_____invoke___core_f706892e66d7b415___result__Result_____wasm_bindgen_72c29d3dda6aeff4___JsValue__: (a: number, b: number) => [number, number];
+  readonly wasm_bindgen_72c29d3dda6aeff4___closure__destroy___dyn_core_f706892e66d7b415___ops__function__FnMut_____Output___core_f706892e66d7b415___result__Result_____wasm_bindgen_72c29d3dda6aeff4___JsValue___: (a: number, b: number) => void;
+  readonly wasm_bindgen_72c29d3dda6aeff4___convert__closures_____invoke___wasm_bindgen_72c29d3dda6aeff4___JsValue__wasm_bindgen_72c29d3dda6aeff4___JsValue_____: (a: number, b: number, c: any, d: any) => void;
   readonly __wbindgen_malloc: (a: number, b: number) => number;
   readonly __wbindgen_realloc: (a: number, b: number, c: number, d: number) => number;
   readonly __wbindgen_export: WebAssembly.Table;
@@ -440,8 +440,7 @@ export interface InitOutput {
   readonly __wbindgen_externrefs: WebAssembly.Table;
   readonly __wbindgen_free: (a: number, b: number, c: number) => void;
   readonly __externref_table_dealloc: (a: number) => void;
-  readonly __wbindgen_thread_destroy: (a?: number, b?: number, c?: number) => void;
-  readonly __wbindgen_start: (a: number) => void;
+  readonly __wbindgen_start: () => void;
 }
 
 export type SyncInitInput = BufferSource | WebAssembly.Module;
@@ -450,20 +449,18 @@ export type SyncInitInput = BufferSource | WebAssembly.Module;
 * Instantiates the given `module`, which can either be bytes or
 * a precompiled `WebAssembly.Module`.
 *
-* @param {{ module: SyncInitInput, memory?: WebAssembly.Memory, thread_stack_size?: number }} module - Passing `SyncInitInput` directly is deprecated.
-* @param {WebAssembly.Memory} memory - Deprecated.
+* @param {{ module: SyncInitInput }} module - Passing `SyncInitInput` directly is deprecated.
 *
 * @returns {InitOutput}
 */
-export function initSync(module: { module: SyncInitInput, memory?: WebAssembly.Memory, thread_stack_size?: number } | SyncInitInput, memory?: WebAssembly.Memory): InitOutput;
+export function initSync(module: { module: SyncInitInput } | SyncInitInput): InitOutput;
 
 /**
 * If `module_or_path` is {RequestInfo} or {URL}, makes a request and
 * for everything else, calls `WebAssembly.instantiate` directly.
 *
-* @param {{ module_or_path: InitInput | Promise<InitInput>, memory?: WebAssembly.Memory, thread_stack_size?: number }} module_or_path - Passing `InitInput` directly is deprecated.
-* @param {WebAssembly.Memory} memory - Deprecated.
+* @param {{ module_or_path: InitInput | Promise<InitInput> }} module_or_path - Passing `InitInput` directly is deprecated.
 *
 * @returns {Promise<InitOutput>}
 */
-export default function __wbg_init (module_or_path?: { module_or_path: InitInput | Promise<InitInput>, memory?: WebAssembly.Memory, thread_stack_size?: number } | InitInput | Promise<InitInput>, memory?: WebAssembly.Memory): Promise<InitOutput>;
+export default function __wbg_init (module_or_path?: { module_or_path: InitInput | Promise<InitInput> } | InitInput | Promise<InitInput>): Promise<InitOutput>;
