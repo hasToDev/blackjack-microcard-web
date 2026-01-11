@@ -1,0 +1,3 @@
+mutation AddRoomManagerChain($chainId: String!) {
+  addRoomManagerChain(chainId: $chainId)
+}

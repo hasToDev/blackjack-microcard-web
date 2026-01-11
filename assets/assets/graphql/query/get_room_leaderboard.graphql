@@ -1,0 +1,31 @@
+query GetRoomLeaderboard {
+    getRoomLeaderboard {
+        rooms {
+            chainId
+            roomId
+            name
+            roomType
+            roomStatus
+            managedBy
+            gameCount
+            currentPlayers
+            currentSpectators
+            createdAt
+            lastUpdate
+        }
+        leaderboard {
+            playerId
+            playerName
+            rank
+            metricType
+            netProfitAmount
+            isProfit
+            totalWinnings
+            winRate
+            gamesPlayed
+            handsPlayed
+            currentStreak
+            blackjackCount
+        }
+    }
+}

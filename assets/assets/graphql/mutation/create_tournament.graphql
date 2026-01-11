@@ -1,0 +1,3 @@
+mutation CreateTournament($config: TournamentConfigInput!) {
+  createTournament(config: $config)
+}

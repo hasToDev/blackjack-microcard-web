@@ -1,0 +1,3 @@
+mutation RequestTableSeat($seatId: Int!, $name: String!) {
+    requestTableSeat(seatId: $seatId, name: $name)
+}

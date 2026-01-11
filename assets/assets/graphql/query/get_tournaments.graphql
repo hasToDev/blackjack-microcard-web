@@ -1,0 +1,57 @@
+query GetTournaments {
+  getTournaments {
+    tournamentId
+    config {
+      name
+      startTime
+      endTime
+      prizes {
+        prizes
+      }
+      assignedPublicChains
+    }
+    status
+    totalPlayers
+    totalHandsPlayed
+    createdAt
+    finalResults {
+      rankings {
+        rank
+        playerChainId
+        playerName
+        finalChips
+        profitAmount
+        isLoss
+        prizeEarned
+        stats {
+          playerName
+          totalGames
+          totalHands
+          handsWon
+          handsLost
+          handsPushed
+          gamesWon
+          gamesLost
+          totalWagered
+          totalWon
+          totalLost
+          biggestSingleWin
+          biggestSingleLoss
+          blackjacksHit
+          busts
+          dealerBustsWitnessed
+          perfectHands
+          fiveCardCharlie
+          currentWinStreak
+          currentLossStreak
+          bestWinStreak
+          worstLossStreak
+        }
+      }
+      totalHands
+      biggestWin
+      biggestWinner
+      finalizedAt
+    }
+  }
+}

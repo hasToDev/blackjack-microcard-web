@@ -1,0 +1,3 @@
+mutation FindPlayChain($tournamentId: String) {
+  findPlayChain(tournamentId: $tournamentId)
+}

@@ -1,0 +1,3 @@
+mutation AddTournamentManagerChain($chainId: String!) {
+  addTournamentManagerChain(chainId: $chainId)
+}

@@ -1,0 +1,3 @@
+mutation AddPublicChain($chainId: String!, $initialAmount: String!) {
+  addPublicChain(chainId: $chainId, initialAmount: $initialAmount)
+}

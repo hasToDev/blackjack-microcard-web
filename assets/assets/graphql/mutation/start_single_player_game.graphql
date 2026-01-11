@@ -1,0 +1,3 @@
+mutation StartSinglePlayerGame($name: String!) {
+    startSinglePlayerGame(name: $name)
+}

@@ -1,0 +1,59 @@
+query SinglePlayerData {
+    singlePlayerData {
+        profile {
+            seat
+            balance
+            myChain
+            betData {
+                minBet
+                maxBet
+                chipset {
+                    amount
+                    text
+                    enable
+                }
+            }
+            statistics {
+                playerName
+                totalGames
+                totalHands
+                handsWon
+                handsLost
+                handsPushed
+                gamesWon
+                gamesLost
+                totalWagered
+                totalWon
+                totalLost
+                biggestSingleWin
+                biggestSingleLoss
+                blackjacksHit
+                busts
+                dealerBustsWitnessed
+                perfectHands
+                fiveCardCharlie
+                currentWinStreak
+                currentLossStreak
+                bestWinStreak
+                worstLossStreak
+            }
+        }
+        game {
+            sequence
+            gameCount
+            dealer {
+                hand
+            }
+            players
+            deck {
+                cards
+            }
+            count
+            pot
+            activeSeat
+            status
+            timeLimit
+        }
+        userStatus
+    }
+}

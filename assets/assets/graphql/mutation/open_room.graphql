@@ -1,0 +1,3 @@
+mutation OpenRoom($name: String!, $roomType: String!, $password: String!) {
+  openRoom(name: $name, roomType: $roomType, password: $password)
+}

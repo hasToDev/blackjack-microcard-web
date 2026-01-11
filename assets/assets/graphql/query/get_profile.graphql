@@ -1,0 +1,40 @@
+query GetProfile {
+    getProfile {
+        seat
+        balance
+        myChain
+        betData {
+            minBet
+            maxBet
+            chipset {
+                amount
+                text
+                enable
+            }
+        }
+        statistics {
+            playerName
+            totalGames
+            totalHands
+            handsWon
+            handsLost
+            handsPushed
+            gamesWon
+            gamesLost
+            totalWagered
+            totalWon
+            totalLost
+            biggestSingleWin
+            biggestSingleLoss
+            blackjacksHit
+            busts
+            dealerBustsWitnessed
+            perfectHands
+            fiveCardCharlie
+            currentWinStreak
+            currentLossStreak
+            bestWinStreak
+            worstLossStreak
+        }
+    }
+}

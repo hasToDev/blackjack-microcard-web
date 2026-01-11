@@ -1,0 +1,9 @@
+query GetPublicChains {
+  getPublicChains {
+    chainId
+    chainStatus
+    chainType
+    createdAt
+    lastUpdate
+  }
+}

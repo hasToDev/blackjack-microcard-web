@@ -1,0 +1,14 @@
+query GetTournamentLeaderboard($tournamentId: String!) {
+  getTournamentLeaderboard(tournamentId: $tournamentId) {
+    rank
+    playerChainId
+    playerName
+    profitAmount
+    isLoss
+    currentChips
+    handsPlayed
+    blackjacks
+    isBusted
+    lastActive
+  }
+}

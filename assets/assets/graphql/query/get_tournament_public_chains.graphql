@@ -1,0 +1,9 @@
+query GetTournamentPublicChains {
+  getTournamentPublicChains {
+    chainId
+    chainStatus
+    chainType
+    createdAt
+    lastUpdate
+  }
+}

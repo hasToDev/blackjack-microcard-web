@@ -1,0 +1,3 @@
+mutation RequestJoinRoom($id: Int!, $room: String!, $password: String!) {
+    requestJoinRoom(id: $id, room: $room, password: $password)
+}
