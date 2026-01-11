@@ -428,7 +428,6 @@ class CompiledApp {
       _1285: (x0,x1,x2,x3) => x0.removeEventListener(x1,x2,x3),
       _1286: (x0,x1) => x0.createElement(x1),
       _1288: (x0,x1) => x0.removeAttribute(x1),
-      _1293: (x0,x1,x2,x3) => x0.open(x1,x2,x3),
       _1294: f => finalizeWrapper(f, function(x0) { return dartInstance.exports._1294(f,arguments.length,x0) }),
       _1295: (x0,x1,x2) => x0.addEventListener(x1,x2),
       _1296: f => finalizeWrapper(f, function(x0) { return dartInstance.exports._1296(f,arguments.length,x0) }),

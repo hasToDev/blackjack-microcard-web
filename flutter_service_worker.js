@@ -104,21 +104,21 @@ const RESOURCES = {"assets/AssetManifest.bin": "90176934bd0aea20add9a7859296c0a3
 "favicon.ico": "132f54fd80061359f9170721964d4071",
 "favicon.png": "e5a0f7d71cdfd940705ba533ea03de11",
 "flutter.js": "888483df48293866f9f41d3d9274a779",
-"flutter_bootstrap.js": "2b7df84798b2456284a2e06ea22248e2",
+"flutter_bootstrap.js": "19849ca019d0a12463c4f8eb23c16a06",
 "fonts/BebasNeue-Regular.ttf": "b2b293064f557c41411aac04d6f6710d",
 "fonts/Orbitron-Bold.ttf": "446368d913de79c000895e4b91dfb1af",
 "icons/Icon-192.png": "9d3f5bce811180345ddbc89b46a75d89",
 "icons/Icon-512.png": "4e55809289afc7fcac1fcc79a50023c0",
 "icons/Icon-maskable-192.png": "9d3f5bce811180345ddbc89b46a75d89",
 "icons/Icon-maskable-512.png": "4e55809289afc7fcac1fcc79a50023c0",
-"index.html": "e2c424493e1801c1b545e6009f1316db",
-"/": "e2c424493e1801c1b545e6009f1316db",
+"index.html": "edbab74179756cfa1e84ee6606efe755",
+"/": "edbab74179756cfa1e84ee6606efe755",
 "linera-wrapper.js": "915a535057fbcdea34bde85174e02c79",
-"main.dart.js": "294bd8409df5eb6f5e321fbfe80ffe73",
-"main.dart.mjs": "5d1bf4050b49b89c98fd5742bf7bde49",
-"main.dart.wasm": "01592eae90346c94bb87faa60efd4d8e",
+"main.dart.js": "bb9041fed5571636e99b04cba0e86e03",
+"main.dart.mjs": "ff283d36d564f553143b062bc0060c87",
+"main.dart.wasm": "4b28b86a2021efe4fb80838cc84f575e",
 "manifest.json": "ff21955e07638e1632aa164a0ec03037",
-"version.json": "03619a41fbe0213abf2c2940031ac018"};
+"version.json": "474c571124bc9973e2308f2a09f23c49"};
 // The application shell files that are downloaded before a service worker can
 // start.
 const CORE = ["main.dart.js",
