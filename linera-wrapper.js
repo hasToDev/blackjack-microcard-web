@@ -124,7 +124,7 @@ export async function notificationListener(chain) {
     // console.log('JS | LINERA WRAPPER | Notification Listener');
     try {
         chain.onNotification(notification => {
-            console.log("JS | onNotification |\n", notification);
+            // console.log("JS | onNotification |\n", notification);
 
             let newBlock = notification.reason.NewBlock;
             if (!newBlock) return;
